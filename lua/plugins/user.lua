@@ -1,3 +1,21 @@
+local BinaryFormat = package.cpath:match("%p[\\|/]?%p(%a+)")
+if BinaryFormat == "dll" then
+    function os.name()
+        return "Windows"
+    end
+elseif BinaryFormat == "so" then
+    function os.name()
+        return "Linux"
+    end
+elseif BinaryFormat == "dylib" then
+    function os.name()
+        return "MacOS"
+    end
+end
+BinaryFormat = nil
+
+
+
 return {
 ---@type LazySpec
 
@@ -70,14 +88,17 @@ return {
       local codelldb = mason_registry.get_package("codelldb")
       local extension_path = codelldb:get_install_path() .. "/extension/"
       local codelldb_path = extension_path .. "adapter/codelldb"
-    --  local liblldb_path = extension_path.. "lldb/lib/liblldb.dylib"
-	  -- If you are on Linux, replace the line above with the line below:
-	    local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+      if os.name() == "MacOS" then
+        LIBLLDB_PATH  = extension_path.. "lldb/lib/liblldb.dylib"
+        end
+	    if os.name() == "Linux" then
+	      LIBLLDB_PATH = extension_path .. "lldb/lib/liblldb.so"
+	    end
       local cfg = require('rustaceanvim.config')
 
       vim.g.rustaceanvim = {
         dap = {
-          adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
+          adapter = cfg.get_codelldb_adapter(codelldb_path, LIBLLDB_PATH),
         },
       }
     end
@@ -96,7 +117,7 @@ return {
         dapui.close()
       end
       dap.listeners.before.event_exited.dapui_config = function()
-        dapui.close()
+       dapui.close()
       end
 		end,
   },
