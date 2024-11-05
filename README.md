@@ -1,6 +1,6 @@
 # My neovim config
 
-**NOTE:** This is for AstroNvim v4+
+**NOTE:** This is for AstroNvim on Linux or MacOS ONLY. Windows users, this works perfectly via WSL2, I tested it myself :)
 
 
 ## 🛠️ Installation
