@@ -1,4 +1,4 @@
-local BinaryFormat = package.cpath:match("%p[\\|/]?%p(%a+)")
+ local BinaryFormat = package.cpath:match("%p[\\|/]?%p(%a+)")
 if BinaryFormat == "dll" then
     function os.name()
         return "Windows"
@@ -20,7 +20,7 @@ elseif BinaryFormat == "dylib" then
 end
 BinaryFormat = nil
 
-local remote_nvim_available = os.name() != "WSL"
+local remote_nvim_available = os.name() ~= "WSL"
 
 return {
 ---@type LazySpec
