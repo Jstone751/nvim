@@ -14,6 +14,7 @@ What this install requires:
 - graphviz
 - fzf
 - lldb
+- a truecolor terminal
 
 Or, you can just use my autoinstall script found in my dotfiles repo
 
