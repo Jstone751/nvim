@@ -15,4 +15,5 @@ vim.filetype.add {
   pattern = {
     ["~/%.config/foo/.*"] = "fooscript",
   },
+  vim.cmd('source custom_vimscript.vim')
 }

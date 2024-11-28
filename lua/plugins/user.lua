@@ -4,9 +4,15 @@ if BinaryFormat == "dll" then
         return "Windows"
     end
 elseif BinaryFormat == "so" then
+  if os.getenv("WSL_INTEROP") or os.getenv("WSL_DISTRO_NAME") then
+    function os.name()
+      return "WSL"
+    end
+  else
     function os.name()
         return "Linux"
     end
+  end
 elseif BinaryFormat == "dylib" then
     function os.name()
         return "MacOS"
@@ -14,7 +20,7 @@ elseif BinaryFormat == "dylib" then
 end
 BinaryFormat = nil
 
-
+local remote_nvim_available = os.name() != "WSL"
 
 return {
 ---@type LazySpec
@@ -146,4 +152,15 @@ return {
       })
     end
   },
+  {
+    "amitds1997/remote-nvim.nvim",
+    version = "*",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-telescope/telescope.nvim"
+    },
+    config = true,
+    enabled = remote_nvim_available
+  }
 }
